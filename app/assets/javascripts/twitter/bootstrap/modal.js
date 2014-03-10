@@ -1,8 +1,8 @@
 /* ========================================================================
- * Bootstrap: modal.js v3.0.3
- * http://getbootstrap.com/javascript/#modals
+ * Bootstrap: modal.js v3.0.0
+ * http://twbs.github.com/bootstrap/javascript.html#modals
  * ========================================================================
- * Copyright 2013 Twitter, Inc.
+ * Copyright 2012 Twitter, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@
 
   var Modal = function (element, options) {
     this.options   = options
-    this.$element  = $(element)
+    this.$element  = $(element).on('click.dismiss.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
     this.$backdrop =
     this.isShown   = null
 
@@ -54,8 +54,6 @@
 
     this.escape()
 
-    this.$element.on('click.dismiss.modal', '[data-dismiss="modal"]', $.proxy(this.hide, this))
-
     this.backdrop(function () {
       var transition = $.support.transition && that.$element.hasClass('fade')
 
@@ -78,7 +76,7 @@
       var e = $.Event('shown.bs.modal', { relatedTarget: _relatedTarget })
 
       transition ?
-        that.$element.find('.modal-dialog') // wait for modal to slide in
+        that.$element
           .one($.support.transition.end, function () {
             that.$element.focus().trigger(e)
           })
@@ -240,7 +238,7 @@
   })
 
   $(document)
-    .on('show.bs.modal',  '.modal', function () { $(document.body).addClass('modal-open') })
+    .on('shown.bs.modal',  '.modal', function () { $(document.body).addClass('modal-open') })
     .on('hidden.bs.modal', '.modal', function () { $(document.body).removeClass('modal-open') })
 
-}(jQuery);
+}(window.jQuery);
